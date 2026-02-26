@@ -1,0 +1,17 @@
+PS C:\Training> python filecheck.py 
+Warnings found some data issues
+filename:  data.csv 
+line:  1
+issues:  ['Keyword:username']
+row:  username:john
+Warnings found some data issues
+filename:  data.csv
+line:  2
+issues:  ['Keyword:password', 'Pattern: Password']
+row:  password - JohnDoe#41
+Warnings found some data issues
+filename:  data.csv
+line:  4
+issues:  ['Pattern: Email id']
+row:  johndoe@gmail.com
+PS C:\Training> 

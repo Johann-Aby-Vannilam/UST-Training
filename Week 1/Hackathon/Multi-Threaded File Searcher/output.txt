@@ -1,0 +1,10 @@
+PS C:\Training\Multi-Threaded File Searcher> python multi-threaded.py
+Warnings found some data issues
+filename:  C:/Training\data.csv 
+line:  1 
+row:  username:john
+Warnings found some data issues
+filename:  C:/Training\data.csv 
+line:  2 
+row:  password - JohnDoe#41
+PS C:\Training\Multi-Threaded File Searcher> 

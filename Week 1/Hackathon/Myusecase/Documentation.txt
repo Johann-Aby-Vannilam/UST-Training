@@ -1,0 +1,31 @@
+Python - scenario
+Check whether the files contains sensitive data, if sensitive specify them : Data cleaning
+
+Read all csv files in a directory check whether there is particular item is present in those files
+
+eg: some temporary files may contains sensitive data which will be stored with some keywords, those files are to be handled before pushing/deploying
+like storing some client info/credentials for demo works, testing
+
+a)Use keywords for basics
+b)Use patterns for username, some keys, passwords, which are underlying in it 
+c)show rows of the files
+
+
+Provide the directory paths - i have given it inside the code itself
+Declared a list of keywords to be checked
+Declared a dict with all the patterns to be verified
+Created a function named keyword_found
+- converted the contents to lower case to identify the terms
+- for every word in the keyword list is matched with the text
+- if found, append it to the list named found[]
+- then return found
+Similarly created a function named pattern_found
+- for every items in the dictionary is taken and the pattern is matched/searched with the text
+- if found, append it to the found[] list
+- return found
+List the contents of the directory and check whether the filenames end with .csv
+If yes the path is joined to get the filepath
+then read the file
+Using enumerate read the file content row by row
+Then the functions are called and the responses are stored
+Then print the issues found
