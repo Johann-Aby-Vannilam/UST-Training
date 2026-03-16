@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tier-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: tier-backend
+  template:
+    metadata:
+      labels:
+        app: tier-backend
+    spec:
+      containers: 
+        - name: tier-backend
+          image: rnld101/3tier-nodejs:backend
+          ports:
+            - containerPort: 3000
+          env: 
+            - name: MYSQL_HOST
+              value: mysql
+            - name: REDIS_HOST
+              value: redis

@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata: 
+  name: springconfig
+data:
+  APP_NAME: "spring-app"
+  ENVIRONMENT: "env"
+  APP_MESSAGE: "my app is working"

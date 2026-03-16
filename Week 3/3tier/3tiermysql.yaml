@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: tier-mysql
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: tier-mysql
+  template:
+    metadata: 
+      labels:
+        app: tier-mysql
+    spec:
+      containers: 
+        - name: tier-mysql
+          image: mysql:8.0
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: admin123
+            - name: MYSQL_DATABASE
+              value: schooldb
+            - name: MYSQL_USER
+              value: admin
+            - name: MYSQL_PASSWORD
+              value: admin123

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springdeploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: springdeploy
+  template:
+    metadata:
+      name: springdeploy
+      labels:
+        app: springdeploy
+    spec:
+      containers:
+        - name: springdeploy
+          image: johann2003/spring-demo-app:v1
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: springconfig
+            - secretRef:
+                name: springsecret

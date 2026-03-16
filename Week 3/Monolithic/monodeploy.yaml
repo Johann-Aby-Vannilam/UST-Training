@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: monodeploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: monodeploy
+  template:
+    metadata:
+      name: monodeploy
+      labels: 
+        app: monodeploy
+    spec:
+      containers:
+        - name: monodeploy
+          image: cazzzzz/mono-withstage
+          ports: 
+            - containerPort: 8080 

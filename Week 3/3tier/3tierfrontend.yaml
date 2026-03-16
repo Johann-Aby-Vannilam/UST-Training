@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tier-frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: tier-frontend
+  template:
+    metadata:
+      name: tierpod-frontend
+      labels:
+        app: tier-frontend
+    spec:
+      containers: 
+        - name: tier-frontend
+          image: rnld101/3tier-nodejs:frontend
+          ports:
+            - containerPort: 80

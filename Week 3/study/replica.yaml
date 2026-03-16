@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: replicadec
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-replica
+  template:
+    metadata:
+      name: mynginxpod
+      labels:
+        app: nginx-replica
+    spec:
+      containers:
+        - name: nginx-replica
+          image: nginx:1.20
+          ports:
+            - containerPort: 80
