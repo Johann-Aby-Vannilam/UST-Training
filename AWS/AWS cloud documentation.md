@@ -1,5 +1,5 @@
-Volume 1 — Cloud & AWS Foundations
-Chapter 1 — Introduction to Cloud Computing
+### Volume 1 — Cloud & AWS Foundations
+## Chapter 1 — Introduction to Cloud Computing
 1.1 What is Cloud Computing
 
 Cloud computing is the delivery of computing resources and IT services over the internet instead of using locally owned physical infrastructure.
@@ -477,7 +477,7 @@ security
 scalability
 management
 
-Chapter 2 — Cloud Service Models
+##Chapter 2 — Cloud Service Models
 
 Cloud computing services are divided into different service models based on how responsibilities are shared between the cloud provider and the customer.
 
