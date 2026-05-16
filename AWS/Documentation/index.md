@@ -22,13 +22,6 @@
 
 This documentation provides a complete theoretical and practical explanation of designing, implementing, securing, scaling, and troubleshooting a production-style AWS 3-tier architecture.
 
-The document is designed for:
-
-* Beginners learning cloud computing and AWS
-* Students studying enterprise cloud architecture
-* Engineers learning AWS networking and infrastructure
-* Professionals understanding scalable cloud deployments
-* Infrastructure and DevOps learning purposes
 
 The documentation combines:
 
