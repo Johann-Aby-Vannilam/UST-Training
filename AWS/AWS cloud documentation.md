@@ -1,4 +1,4 @@
-### Volume 1 — Cloud & AWS Foundations
+# Volume 1 — Cloud & AWS Foundations
 ## Chapter 1 — Introduction to Cloud Computing
 1.1 What is Cloud Computing
 
