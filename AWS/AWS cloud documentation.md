@@ -477,7 +477,7 @@ security
 scalability
 management
 
-##Chapter 2 — Cloud Service Models
+## Chapter 2 — Cloud Service Models
 
 Cloud computing services are divided into different service models based on how responsibilities are shared between the cloud provider and the customer.
 
