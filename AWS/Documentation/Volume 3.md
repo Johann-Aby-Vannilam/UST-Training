@@ -2,6 +2,11 @@
 
 ---
 
+<img width="1536" height="1024" alt="Volume 3" src="https://github.com/user-attachments/assets/5789026c-6656-4dff-84a2-1bfd694f743e" />
+
+
+---
+
 # Chapter 1 — Load Balancing Fundamentals
 
 Modern applications receive traffic from:
