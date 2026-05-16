@@ -1,4 +1,8 @@
 # Volume 2 — AWS Networking, Security & IAM
+
+<img width="1536" height="1024" alt="Volume 2" src="https://github.com/user-attachments/assets/fad4e9d1-1bff-4ae5-94ab-765e6d49d773" />
+
+
 ## Chapter 1 — Amazon VPC
 
 Amazon VPC (Virtual Private Cloud) is one of the most important AWS services because it forms the networking foundation of cloud infrastructure.
