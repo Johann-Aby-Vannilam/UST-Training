@@ -453,7 +453,7 @@ Application Tier
 
 ---
 
-### Chapter 5 — Practical DNS Implementation
+### Chapter 5 — Practical DNS Implementation - 3 tier application
 
 ## Domain Used
 
@@ -667,92 +667,7 @@ Database Tier
 
 ---
 
-# Volume 6 — Troubleshooting & Operational Learnings
 
-## Chapter 1 — Infrastructure Troubleshooting
-
-### Issues Resolved
-
-* Security group misconfigurations
-* ALB target registration failures
-* Health check failures
-* Route table connectivity issues
-* Listener rule mismatches
-* NAT connectivity problems
-
----
-
-## Chapter 2 — Application Troubleshooting
-
-### Issues Resolved
-
-* React build failures
-* Nginx reverse proxy issues
-* PM2 startup failures
-* Backend connectivity problems
-* API routing issues
-
----
-
-## Chapter 3 — Database Troubleshooting
-
-### MySQL Driver Compatibility Issue
-
-### Problem
-
-Node.js MySQL authentication incompatibility occurred during backend integration.
-
-### Root Cause
-
-The mysql driver was incompatible with the configured authentication protocol.
-
-### Resolution
-
-Migrated:
-
-```text
-mysql
-→
-mysql2
-```
-
----
-
-## Chapter 4 — Gateway Timeout Analysis
-
-### Potential Causes
-
-* Unhealthy targets
-* Security group blocking
-* Incorrect target group ports
-* Backend application failures
-* Reverse proxy misconfiguration
-* Internal routing issues
-
-### Troubleshooting Approach
-
-* Validate target health
-* Verify SG rules
-* Check Nginx configuration
-* Validate listener rules
-* Confirm application ports
-* Analyze logs
-
----
-
-## Chapter 5 — Lessons Learned
-
-### Technical Learnings
-
-* Importance of layered security
-* Importance of health checks
-* Multi-tier routing concepts
-* Internal ALB architecture
-* Cloud troubleshooting methodology
-* HA design strategies
-* Enterprise VPC planning
-
----
 
 # Final Conclusion
 
