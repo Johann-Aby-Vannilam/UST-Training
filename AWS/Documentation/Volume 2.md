@@ -2306,3 +2306,1021 @@ Security Groups
 controlled routing
 subnet isolation
 
+## Chapter 6 — Bastion Host Architecture
+
+In enterprise cloud environments, private infrastructure should never be directly exposed to the internet.
+
+However, administrators still require secure access to:
+
+private EC2 instances
+backend servers
+databases
+internal services
+
+AWS architectures solve this using:
+
+Bastion Hosts
+
+A Bastion Host acts as a secure entry point into private infrastructure.
+
+This chapter explains:
+
+what a Bastion Host is
+why it is required
+secure administrative access
+SSH management strategy
+jump server architecture
+Bastion implementation from this project
+
+1. What is a Bastion Host
+Definition
+
+A Bastion Host is a specially configured EC2 instance placed in a public subnet that provides secure administrative access to private infrastructure.
+
+It acts as:
+
+a controlled entry point
+a jump server
+a secure SSH gateway
+Simple Explanation
+
+Instead of exposing all private servers publicly:
+
+Administrator
+↓
+Bastion Host
+↓
+Private Servers
+
+Only the Bastion Host is publicly accessible.
+
+Real-World Analogy
+
+Imagine a secure corporate building.
+
+Visitors:
+
+cannot directly enter restricted internal rooms
+
+Instead:
+
+they first pass through a guarded reception area.
+
+The Bastion Host acts like:
+
+the secure reception gateway
+
+before accessing internal systems.
+
+Bastion Host Architecture
+Internet
+↓
+Public Subnet
+↓
+Bastion Host
+↓
+Private Subnets
+↓
+Private EC2 Instances
+Why Bastion Hosts Are Important
+
+Without Bastion Hosts:
+
+private servers may require public IPs
+SSH ports may be exposed publicly
+attack surface increases significantly
+
+Bastion Hosts improve:
+
+security
+centralized access control
+auditing
+private subnet protection
+Bastion Host in This Project
+
+The architecture implemented:
+
+Bastion Host in Public Subnet
+SSH access to private app servers
+controlled administration strategy
+2. Why Bastion Hosts Are Required
+Problem Without Bastion Hosts
+
+Suppose private app servers need SSH access.
+
+One approach would be:
+
+assigning public IPs to all servers
+
+This creates major security risks.
+
+Risks of Public Backend Access
+Risk	Explanation
+Increased Attack Surface	More internet-exposed servers
+Brute Force Attacks	Public SSH ports exposed
+Unauthorized Access	Weak access control
+Difficult Auditing	Multiple access points
+Bastion Host Solution
+
+Instead of exposing all servers:
+
+Administrator
+↓
+Bastion Host
+↓
+Private EC2
+
+Only:
+
+the Bastion Host remains public
+
+All backend systems remain private.
+
+Enterprise Importance
+
+Most enterprise environments:
+
+avoid direct backend exposure
+centralize administrative access
+isolate private infrastructure
+
+Bastion Hosts support these principles.
+
+Secure Architecture in This Project
+Internet
+↓
+Bastion Host
+↓
+Private App Tier
+↓
+Database Tier
+
+This significantly reduced exposure.
+
+3. Secure Administrative Access
+Why Secure Administrative Access Matters
+
+Administrators require:
+
+server maintenance
+troubleshooting
+deployments
+log analysis
+software installation
+
+However:
+
+unrestricted administrative access creates security risks.
+Secure Access Strategy
+
+This project implemented:
+
+centralized SSH access
+private backend isolation
+Security Group restrictions
+Administrative Access Flow
+Admin Laptop
+↓
+SSH
+↓
+Bastion Host
+↓
+Private EC2
+Bastion Security Group Rules
+
+The Bastion SG allowed:
+
+SSH access only on port 22
+
+Preferably restricted to:
+
+trusted IP ranges
+Example Rule
+Port	Source
+22	Administrator Public IP
+Why Restrict SSH Access
+
+Allowing:
+
+0.0.0.0/0
+
+for SSH is dangerous because:
+
+anyone on the internet can attempt access.
+Enterprise Best Practice
+
+SSH access should:
+
+use least privilege
+restrict IP ranges
+use key-based authentication
+avoid password login
+Secure Access Principles Used
+Principle	Purpose
+Bastion Access	Centralized administration
+Private Backend	No public backend exposure
+SG Restrictions	Controlled SSH
+Key-Based Access	Secure authentication
+4. SSH Management Strategy
+What is SSH
+
+SSH (Secure Shell) is a secure protocol used for remote administration.
+
+SSH provides:
+
+encrypted communication
+secure terminal access
+remote server management
+SSH Port
+
+SSH commonly uses:
+
+Port 22
+SSH Flow in This Project
+Administrator
+↓
+SSH to Bastion Host
+↓
+SSH to Private EC2
+Why SSH Keys Are Important
+
+SSH keys are more secure than passwords because:
+
+difficult to brute force
+cryptographically secure
+widely used in enterprise systems
+SSH Key Pair Components
+Component	Purpose
+Public Key	Stored on server
+Private Key	Stored securely by admin
+SSH Best Practices
+Best Practice	Reason
+Use SSH keys	Stronger security
+Restrict source IPs	Reduce exposure
+Disable password login	Prevent brute force
+Use Bastion Host	Centralized access
+Avoid public backend access	Secure architecture
+Common Beginner Mistakes
+Mistake	Risk
+Public backend SSH	Increased exposure
+Open SSH to internet	Attack risk
+Shared SSH keys	Poor accountability
+Password authentication	Weak security
+5. Jump Server Architecture
+What is a Jump Server
+
+A Jump Server is another term for:
+
+Bastion Host
+
+It acts as:
+
+an intermediary administrative server
+
+between:
+
+administrators
+private infrastructure
+Jump Server Workflow
+Admin System
+↓
+Jump Server
+↓
+Private Infrastructure
+Why Jump Servers Are Important
+
+Jump servers:
+
+centralize access
+simplify auditing
+reduce attack surface
+protect internal systems
+Enterprise Jump Server Model
+Internet
+↓
+Jump Server
+↓
+Private App Tier
+↓
+Private Database Tier
+Advantages of Jump Server Architecture
+Benefit	Explanation
+Centralized Access	Single administration point
+Improved Security	Reduced public exposure
+Better Auditing	Easier activity monitoring
+Infrastructure Isolation	Backend remains private
+Jump Server Architecture in This Project
+
+The architecture implemented:
+
+Bastion Host in public subnet
+private backend access
+SG-controlled communication
+private database isolation
+Practical Communication Flow
+Admin
+↓
+Bastion Host
+↓
+Private App EC2
+↓
+Database EC2
+Bastion Host Architecture Used in This Project
+Component	Purpose
+Bastion Host	Administrative gateway
+Public Subnet	Internet accessibility
+Private App Tier	Backend isolation
+SG Restrictions	Controlled SSH access
+Private Routing	Secure communication
+Security Benefits in This Project
+
+The Bastion architecture provided:
+
+backend isolation
+secure administration
+reduced attack surface
+controlled SSH access
+Enterprise Importance of Bastion Hosts
+
+Bastion Hosts are commonly used in:
+
+banking infrastructure
+enterprise cloud environments
+secure production systems
+regulated environments
+
+because they support:
+
+controlled access
+centralized administration
+secure backend protection
+
+## Chapter 7 — IAM Fundamentals
+
+IAM (Identity and Access Management) is one of the most critical AWS security services.
+
+IAM controls:
+
+who can access AWS
+what actions they can perform
+which resources they can access
+
+Without IAM:
+
+AWS environments become insecure
+unauthorized actions become possible
+access control becomes impossible
+
+1. What is IAM
+Definition
+
+IAM (Identity and Access Management) is an AWS service used to securely manage:
+
+authentication
+authorization
+permissions
+access control
+Simple Explanation
+
+IAM determines:
+
+WHO can access AWS
+WHAT they can do
+WHICH resources they can use
+Real-World Analogy
+
+Imagine a corporate office.
+
+Different employees receive different access:
+
+managers
+HR
+finance
+engineers
+
+Not everyone can access every department.
+
+IAM works similarly in AWS.
+
+IAM Architecture
+User
+↓
+IAM Authentication
+↓
+Permission Validation
+↓
+AWS Resource Access
+Why IAM Is Important
+
+IAM helps:
+
+secure AWS environments
+prevent unauthorized access
+implement least privilege
+control permissions centrally
+IAM in This Project
+
+The project implemented:
+
+IAM user creation
+AdministratorAccess permissions
+secure AWS management access
+2. IAM Users
+What is an IAM User
+
+An IAM User represents:
+
+an individual identity inside AWS
+
+Each user can have:
+
+username
+password
+access keys
+permissions
+Example IAM Users
+User	Purpose
+Admin User	Full AWS management
+Developer User	Limited development access
+ReadOnly User	Monitoring access
+IAM User in This Project
+
+The project created:
+
+IAM administrative user
+
+Used for:
+
+AWS console access
+infrastructure deployment
+service management
+Why IAM Users Are Important
+
+Using IAM users is safer than:
+
+using root account regularly
+Root Account Risk
+
+The AWS root account:
+
+has unrestricted permissions
+
+Using it daily is dangerous.
+
+Enterprise Best Practice
+
+Use:
+
+IAM users
+IAM roles
+
+instead of:
+
+root account
+3. IAM Groups
+What is an IAM Group
+
+An IAM Group is a collection of IAM users.
+
+Permissions can be assigned to groups instead of individual users.
+
+Example
+Developers Group
+↓
+EC2 Access
+
+All developers inherit:
+
+the same permissions
+Benefits of IAM Groups
+Benefit	Explanation
+Easier Management	Centralized permissions
+Consistency	Standardized access
+Scalability	Manage multiple users easily
+Enterprise Example
+
+Organizations commonly create:
+
+DevOps groups
+Security groups
+ReadOnly groups
+Billing groups
+4. IAM Policies
+What is an IAM Policy
+
+An IAM Policy defines:
+
+allowed actions
+denied actions
+resource permissions
+
+Policies are written in:
+
+JSON format
+Example Policy Logic
+Allow:
+Start EC2 Instances
+Policy Types
+Policy Type	Purpose
+AWS Managed Policy	AWS-provided
+Customer Managed Policy	Custom organization policy
+Inline Policy	Directly attached policy
+AdministratorAccess Policy
+
+This project used:
+
+AdministratorAccess
+
+This provides:
+
+full AWS permissions
+Why Admin Access Was Used
+
+The project required:
+
+VPC creation
+EC2 management
+Route 53 configuration
+ALB setup
+IAM management
+
+Administrative permissions simplified learning and deployment.
+
+Enterprise Warning
+
+IMPORTANT:
+Production environments should avoid unnecessary full administrative access.
+
+5. Administrative Access
+What is Administrative Access
+
+Administrative access allows:
+
+full management of AWS services
+
+Examples:
+
+create/delete resources
+modify infrastructure
+manage IAM
+Risks of Full Admin Access
+Risk	Explanation
+Accidental Deletion	Critical infrastructure removal
+Security Risk	Full account compromise
+Excessive Permissions	Violates least privilege
+Enterprise Best Practice
+
+Use:
+
+role-based permissions
+limited access
+least privilege policies
+
+instead of:
+
+unrestricted admin access
+6. Least Privilege Principle
+What is Least Privilege
+
+Least privilege means:
+
+granting only the permissions required
+
+and nothing more.
+
+Example
+
+A developer requiring:
+
+EC2 restart access
+
+should NOT receive:
+
+billing access
+IAM management access
+Why Least Privilege Is Important
+
+Benefits:
+
+reduced security risk
+minimized accidental actions
+stronger access control
+Least Privilege in Enterprise Security
+
+Modern enterprises strongly enforce:
+
+least privilege access models
+7. MFA Concepts
+What is MFA
+
+MFA (Multi-Factor Authentication) adds an additional security layer during login.
+
+Users provide:
+
+password
+secondary verification
+
+Example:
+
+mobile authenticator code
+MFA Authentication Flow
+Username + Password
+↓
+MFA Verification
+↓
+AWS Access Granted
+Why MFA Is Important
+
+Even if passwords are compromised:
+
+attackers still cannot log in easily
+Enterprise Importance of MFA
+
+MFA is critical for:
+
+administrators
+privileged users
+production environments
+AWS MFA Methods
+Method	Example
+Virtual MFA	Google Authenticator
+Hardware MFA	Physical security key
+
+8. IAM Best Practices
+Enterprise IAM Best Practices
+Best Practice	Reason
+Avoid Root Account Usage	Reduce risk
+Enable MFA	Stronger authentication
+Use Least Privilege	Minimize permissions
+Use IAM Groups	Easier management
+Rotate Credentials	Improve security
+Use Roles When Possible	Temporary secure access
+
+Common Beginner Mistakes
+Mistake	Risk
+Using Root Account Daily	High security risk
+No MFA	Account compromise
+Full Admin for Everyone	Excessive permissions
+Shared Credentials	Poor accountability
+
+## Practical Implementation — IAM Configuration
+
+This section explains the practical IAM implementation performed during the project.
+
+The IAM setup was used to:
+
+* securely manage AWS infrastructure
+* avoid daily usage of the root account
+* perform VPC, EC2, Route 53, ALB, and networking configurations
+
+The implementation included:
+
+* IAM user creation
+* assigning administrative permissions
+* configuring AWS console access
+* using IAM credentials for infrastructure management
+
+---
+
+### 1. Creating an IAM User
+
+---
+
+Objective
+
+Create a dedicated IAM user for AWS infrastructure management instead of using the root account.
+
+---
+
+Why This Was Done
+
+Using the root account for daily operations is not recommended because:
+
+* it has unrestricted access
+* accidental actions can affect the entire AWS account
+* it increases security risks
+
+Instead:
+
+* a separate IAM user was created.
+
+---
+
+AWS Service Used
+
+```text
+AWS IAM (Identity and Access Management)
+```
+
+---
+
+Steps Performed
+
+---
+
+Step 1 — Open IAM Console
+
+Navigate to:
+
+```text
+AWS Console
+↓
+IAM
+```
+
+---
+
+Step 2 — Open Users Section
+
+Inside IAM:
+
+```text
+IAM
+↓
+Users
+↓
+Create User
+```
+
+---
+
+Step 3 — Configure User Details
+
+Configured:
+
+* IAM username
+* AWS Management Console access
+
+---
+
+Example Configuration
+
+| Setting        | Value           |
+| -------------- | --------------- |
+| Username       | admin-user      |
+| Console Access | Enabled         |
+| Password Type  | Custom Password |
+
+---
+
+Step 4 — Set Password
+
+Configured:
+
+* secure password for console login
+
+Optional:
+
+* require password reset during first login
+
+---
+
+2. Assigning AdministratorAccess Policy
+
+---
+
+Objective
+
+Provide full AWS permissions required for:
+
+* VPC setup
+* EC2 management
+* Route 53 configuration
+* Load Balancer setup
+* networking configuration
+* IAM management
+
+---
+
+Policy Used
+
+```text
+AdministratorAccess
+```
+
+---
+
+Why This Policy Was Used
+
+The project involved:
+
+* multiple AWS services
+* networking configuration
+* security setup
+* infrastructure deployment
+
+Administrative access simplified:
+
+* learning
+* deployment
+* experimentation
+
+---
+
+Steps Performed
+
+---
+
+Step 1 — Open Permission Assignment
+
+During user creation:
+
+```text
+Set Permissions
+↓
+Attach Policies Directly
+```
+
+---
+
+Step 2 — Search for Policy
+
+Searched for:
+
+```text
+AdministratorAccess
+```
+
+---
+
+Step 3 — Attach Policy
+
+Selected:
+
+```text
+AdministratorAccess
+```
+
+and attached it to the IAM user.
+
+---
+
+Result
+
+The IAM user received:
+
+* full AWS management permissions
+
+including:
+
+* EC2
+* VPC
+* Route 53
+* Load Balancers
+* IAM
+* Auto Scaling
+* Security Groups
+
+---
+
+Important Security Note
+
+> IMPORTANT:
+> Full administrative access is acceptable for learning environments,
+> but production environments should follow least privilege principles.
+
+---
+
+3. IAM User Login Process
+
+---
+
+Objective
+
+Use IAM credentials instead of the root account.
+
+---
+
+Steps Performed
+
+---
+
+Step 1 — Retrieve IAM Login URL
+
+AWS generated an IAM login URL similar to:
+
+```text
+https://account-id.signin.aws.amazon.com/console
+```
+
+---
+
+Step 2 — Login Using IAM Credentials
+
+Used:
+
+* IAM username
+* IAM password
+
+instead of:
+
+* root email credentials
+
+---
+
+Benefit
+
+This improved:
+
+* account security
+* access management
+* operational separation
+
+---
+
+4. Using IAM Credentials for Infrastructure Management
+
+---
+
+Objective
+
+Use IAM user permissions to manage AWS infrastructure securely.
+
+---
+
+Services Managed Using IAM User
+
+| AWS Service     | Purpose                |
+| --------------- | ---------------------- |
+| VPC             | Networking setup       |
+| EC2             | Server deployment      |
+| Route 53        | DNS management         |
+| ALB             | Load balancing         |
+| IAM             | Access control         |
+| Security Groups | Firewall configuration |
+| Auto Scaling    | Scalability setup      |
+
+---
+
+Practical Tasks Performed
+
+The IAM user was used for:
+
+* creating custom VPC
+* subnet creation
+* configuring Route Tables
+* attaching Internet Gateway
+* NAT Gateway setup
+* EC2 deployment
+* Security Group configuration
+* ALB setup
+* Route 53 configuration
+* Auto Scaling Group setup
+
+---
+
+Administrative Workflow
+
+```text
+IAM User
+↓
+AWS Console Access
+↓
+Infrastructure Deployment
+↓
+AWS Resource Management
+```
+
+---
+
+Security Best Practices Followed
+
+| Best Practice                    | Implementation       |
+| -------------------------------- | -------------------- |
+| Avoid Root Usage                 | IAM user used        |
+| Separate Administrative Identity | Dedicated admin user |
+| Managed Policy Usage             | AdministratorAccess  |
+| Controlled Authentication        | IAM console login    |
+
+---
+
+Optional Security Improvements
+
+Future improvements could include:
+
+* enabling MFA
+* creating custom least privilege policies
+* using IAM roles
+* restricting administrative actions
+
+---
+
+Practical Architecture Integration
+
+The IAM user enabled secure deployment and management of:
+
+```text
+VPC
+↓
+Subnets
+↓
+Route Tables
+↓
+ALB
+↓
+EC2 Infrastructure
+↓
+Security Architecture
+```
+
+
