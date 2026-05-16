@@ -59,16 +59,27 @@ internal organization
 Similarly, a VPC gives customers full control over their cloud network.
 
 VPC Architecture Overview
+
 AWS Cloud
+
 ↓
+
 VPC
+
 ├── Public Subnets
+
 ├── Private Subnets
+
 ├── Route Tables
+
 ├── Internet Gateway
+
 ├── NAT Gateway
+
 ├── EC2 Instances
+
 └── Security Layers
+
 Core Components of a VPC
 Component	Purpose
 CIDR Block	Defines IP range
