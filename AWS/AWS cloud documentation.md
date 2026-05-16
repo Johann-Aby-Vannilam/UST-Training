@@ -481,6 +481,7 @@ Chapter 2 — Cloud Service Models
 
 Cloud computing services are divided into different service models based on how responsibilities are shared between the cloud provider and the customer.
 
+<img width="1536" height="1024" alt="Volume 1" src="https://github.com/user-attachments/assets/e2d4ef58-c731-4ab5-ac8c-024e2eccc13e" />
 
 
 
