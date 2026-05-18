@@ -25,6 +25,11 @@ The architecture follows enterprise cloud design principles including:
 
 ---
 
+<img width="1024" height="1536" alt="Volume 5a" src="https://github.com/user-attachments/assets/80fd55bb-6161-4a9f-b254-f7d30592a979" />
+
+
+---
+
 # 1. Architecture Overview
 
 ## High-Level Flow
