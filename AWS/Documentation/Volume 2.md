@@ -6,47 +6,65 @@
 
 ---
 
-## Chapter 1 — Amazon VPC
+# Chapter 1 — Amazon VPC
 
 Amazon VPC (Virtual Private Cloud) is one of the most important AWS services because it forms the networking foundation of cloud infrastructure.
 
 Almost every AWS architecture depends on VPC concepts such as:
 
-IP addressing
-subnetting
-routing
-internet access
-private networking
-security isolation
+* IP addressing
+* subnetting
+* routing
+* internet access
+* private networking
+* security isolation
 
-1. What is a VPC
-Definition
+Understanding VPC is essential for designing:
+
+* scalable infrastructure
+* secure cloud environments
+* enterprise architectures
+* multi-tier deployments
+* highly available systems
+
+---
+
+# 1. What is a VPC
+
+---
+
+# Definition
 
 Amazon VPC (Virtual Private Cloud) is a logically isolated virtual network inside AWS where cloud resources are deployed.
 
 A VPC allows organizations to:
 
-control networking
-isolate infrastructure
-configure routing
-define IP ranges
-manage internet access
-secure workloads
-Simple Explanation
+* control networking
+* isolate infrastructure
+* configure routing
+* define IP ranges
+* manage internet access
+* secure workloads
+
+---
+
+# Simple Explanation
 
 A VPC is similar to creating a private data center inside AWS.
 
 Inside the VPC, organizations can create:
 
-subnets
-servers
-route tables
-gateways
-security configurations
+* subnets
+* servers
+* route tables
+* gateways
+* security configurations
 
 while maintaining isolation from other AWS customers.
 
-Real-World Analogy
+---
+
+# Real-World Analogy
 
 Imagine an apartment complex.
 
@@ -54,75 +72,85 @@ AWS is the entire city.
 
 Your VPC is:
 
-your private apartment building
+* your private apartment building
 
 Inside the building, you decide:
 
-room layout
-security
-access control
-internal organization
+* room layout
+* security
+* access control
+* internal organization
 
 Similarly, a VPC gives customers full control over their cloud network.
 
-VPC Architecture Overview
+---
 
+# VPC Architecture Overview
+
+```text
 AWS Cloud
-
 ↓
-
 VPC
-
 ├── Public Subnets
-
 ├── Private Subnets
-
 ├── Route Tables
-
 ├── Internet Gateway
-
 ├── NAT Gateway
-
 ├── EC2 Instances
-
 └── Security Layers
+```
 
-Core Components of a VPC
-Component	Purpose
-CIDR Block	Defines IP range
-Subnets	Divide network logically
-Route Tables	Control traffic routing
-Internet Gateway	Internet connectivity
-NAT Gateway	Secure outbound internet
-Security Groups	Instance-level firewall
-NACLs	Subnet-level security
-Why VPC is Important
+---
+
+# Core Components of a VPC
+
+| Component        | Purpose                  |
+| ---------------- | ------------------------ |
+| CIDR Block       | Defines IP range         |
+| Subnets          | Divide network logically |
+| Route Tables     | Control traffic routing  |
+| Internet Gateway | Internet connectivity    |
+| NAT Gateway      | Secure outbound internet |
+| Security Groups  | Instance-level firewall  |
+| NACLs            | Subnet-level security    |
+
+---
+
+# Why VPC is Important
 
 Without VPC:
 
-workloads would not be isolated
-traffic control would be limited
-enterprise networking would be impossible
-security segmentation would be weak
+* workloads would not be isolated
+* traffic control would be limited
+* enterprise networking would be impossible
+* security segmentation would be weak
 
 VPC enables:
 
-private networking
-traffic isolation
-enterprise architecture
-secure cloud deployments
-VPC in This Project
+* private networking
+* traffic isolation
+* enterprise architecture
+* secure cloud deployments
+
+---
+
+# VPC in This Project
 
 This project used a custom VPC architecture to implement:
 
-public subnets
-private subnets
-database isolation
-NAT Gateway
-Bastion Host
-Multi-AZ deployment
-layered security
-High-Level Project VPC Flow
+* public subnets
+* private subnets
+* database isolation
+* NAT Gateway
+* Bastion Host
+* Multi-AZ deployment
+* layered security
+
+---
+
+# High-Level Project VPC Flow
+
+```text
 Internet
 ↓
 Internet Gateway
@@ -134,117 +162,169 @@ Web Tier
 Private App Subnets
 ↓
 Database Subnets
-2. Why VPC is Required
-Problem Without VPC
+```
+
+---
+
+# 2. Why VPC is Required
+
+---
+
+# Problem Without VPC
 
 If all cloud resources existed in a shared public network:
 
-security risks increase
-traffic isolation becomes difficult
-internal communication becomes exposed
-enterprise segmentation becomes impossible
-VPC Solves These Problems
+* security risks increase
+* traffic isolation becomes difficult
+* internal communication becomes exposed
+* enterprise segmentation becomes impossible
+
+---
+
+# VPC Solves These Problems
 
 VPC provides:
 
-network isolation
-secure communication
-traffic control
-subnet segmentation
-customizable routing
-enterprise-grade networking
-Enterprise Benefits of VPC
-Benefit	Explanation
-Isolation	Separate workloads securely
-Security	Control inbound/outbound traffic
-Scalability	Support large architectures
-Flexibility	Custom network design
-Availability	Multi-AZ deployments
-Hybrid Connectivity	Connect on-premise infrastructure
-Real-World Enterprise Example
+* network isolation
+* secure communication
+* traffic control
+* subnet segmentation
+* customizable routing
+* enterprise-grade networking
+
+---
+
+# Enterprise Benefits of VPC
+
+| Benefit             | Explanation                       |
+| ------------------- | --------------------------------- |
+| Isolation           | Separate workloads securely       |
+| Security            | Control inbound/outbound traffic  |
+| Scalability         | Support large architectures       |
+| Flexibility         | Custom network design             |
+| Availability        | Multi-AZ deployments              |
+| Hybrid Connectivity | Connect on-premise infrastructure |
+
+---
+
+# Real-World Enterprise Example
 
 A banking application may separate:
 
-public web servers
-backend services
-databases
+* public web servers
+* backend services
+* databases
 
 into different subnets for:
 
-security
-compliance
-traffic isolation
+* security
+* compliance
+* traffic isolation
 
 This is achieved using VPC architecture.
 
-Why a Custom VPC Was Used in This Project
+---
+
+# Why a Custom VPC Was Used in This Project
 
 AWS provides a default VPC automatically.
 
 However, enterprise architectures rarely use default VPCs because they require:
 
-custom subnet layouts
-custom routing
-private networking
-controlled internet access
-security segmentation
+* custom subnet layouts
+* custom routing
+* private networking
+* controlled internet access
+* security segmentation
 
 Therefore, a custom VPC was created.
 
-Practical Implementation in This Project
+---
+
+# Practical Implementation in This Project
 
 The project implemented:
 
-Feature	Purpose
-Custom CIDR	Scalable IP planning
-Public Subnets	Internet-facing services
-Private App Subnets	Backend isolation
-Private DB Subnets	Database security
-NAT Gateway	Secure outbound access
-Bastion Host	Controlled SSH access
-3. VPC CIDR Planning
-What is CIDR Planning
+| Feature             | Purpose                  |
+| ------------------- | ------------------------ |
+| Custom CIDR         | Scalable IP planning     |
+| Public Subnets      | Internet-facing services |
+| Private App Subnets | Backend isolation        |
+| Private DB Subnets  | Database security        |
+| NAT Gateway         | Secure outbound access   |
+| Bastion Host        | Controlled SSH access    |
+
+---
+
+# 3. VPC CIDR Planning
+
+---
+
+# What is CIDR Planning
 
 CIDR planning defines how IP ranges are allocated inside a VPC.
 
 Example:
 
+```text
 10.0.0.0/16
+```
 
 CIDR planning is extremely important because poor planning can:
 
-limit scalability
-create IP conflicts
-complicate subnet expansion
-break enterprise networking
-CIDR Used in This Project
+* limit scalability
+* create IP conflicts
+* complicate subnet expansion
+* break enterprise networking
+
+---
+
+# CIDR Used in This Project
 
 The VPC used:
 
+```text
 10.0.0.0/16
-Why /16 Was Chosen
+```
 
-A /16 CIDR provides:
+---
 
-65,536 IP addresses
-large expansion capability
-support for multiple subnet tiers
-future scalability
-CIDR Breakdown
-CIDR	Number of IPs
-/16	65,536
-/24	256
-/32	1
-Enterprise CIDR Planning Principles
+# Why /16 Was Chosen
+
+A `/16` CIDR provides:
+
+* 65,536 IP addresses
+* large expansion capability
+* support for multiple subnet tiers
+* future scalability
+
+---
+
+# CIDR Breakdown
+
+| CIDR | Number of IPs |
+| ---- | ------------- |
+| /16  | 65,536        |
+| /24  | 256           |
+| /32  | 1             |
+
+---
+
+# Enterprise CIDR Planning Principles
 
 Good CIDR planning should support:
 
-future growth
-subnet expansion
-multiple environments
-multi-tier design
-disaster recovery
-Example Enterprise Layout
+* future growth
+* subnet expansion
+* multiple environments
+* multi-tier design
+* disaster recovery
+
+---
+
+# Example Enterprise Layout
+
+```text
 10.0.0.0/16
 │
 ├── Public Subnets
@@ -252,103 +332,145 @@ Example Enterprise Layout
 ├── Database Subnets
 ├── Management Subnets
 └── Future Expansion
-Poor CIDR Planning Problems
+```
+
+---
+
+# Poor CIDR Planning Problems
 
 Improper CIDR design can cause:
 
-subnet overlap
-routing conflicts
-difficult migrations
-limited scalability
-Subnet Allocation in This Project
-Subnet	CIDR
-Public-Subnet-1	10.0.1.0/24
-Public-Subnet-2	10.0.2.0/24
-Private-Subnet-1	10.0.3.0/24
-Private-Subnet-2	10.0.4.0/24
-DB-Subnet-1	10.0.5.0/24
-DB-Subnet-2	10.0.6.0/24
-Why Multiple Subnets Were Used
+* subnet overlap
+* routing conflicts
+* difficult migrations
+* limited scalability
+
+---
+
+# Subnet Allocation in This Project
+
+| Subnet           | CIDR        |
+| ---------------- | ----------- |
+| Public-Subnet-1  | 10.0.1.0/24 |
+| Public-Subnet-2  | 10.0.2.0/24 |
+| Private-Subnet-1 | 10.0.3.0/24 |
+| Private-Subnet-2 | 10.0.4.0/24 |
+| DB-Subnet-1      | 10.0.5.0/24 |
+| DB-Subnet-2      | 10.0.6.0/24 |
+
+---
+
+# Why Multiple Subnets Were Used
 
 Multiple subnets improve:
 
-availability
-security
-traffic isolation
-fault tolerance
+* availability
+* security
+* traffic isolation
+* fault tolerance
 
 Each layer was separated logically.
 
-4. Enterprise VPC Design
-What is Enterprise VPC Design
+---
+
+# 4. Enterprise VPC Design
+
+---
+
+# What is Enterprise VPC Design
 
 Enterprise VPC design refers to building scalable, secure, and highly available network architectures.
 
-Core Enterprise Design Principles
+---
+
+# Core Enterprise Design Principles
 
 The architecture implemented several enterprise networking principles:
 
-Principle	Purpose
-Multi-AZ Deployment	High Availability
-Public/Private Separation	Security
-Layered Architecture	Traffic isolation
-NAT-Based Internet Access	Private subnet protection
-Bastion-Based Access	Controlled administration
-Segmented Routing	Secure traffic flow
-Multi-Tier Network Architecture
+| Principle                 | Purpose                   |
+| ------------------------- | ------------------------- |
+| Multi-AZ Deployment       | High Availability         |
+| Public/Private Separation | Security                  |
+| Layered Architecture      | Traffic isolation         |
+| NAT-Based Internet Access | Private subnet protection |
+| Bastion-Based Access      | Controlled administration |
+| Segmented Routing         | Secure traffic flow       |
+
+---
+
+# Multi-Tier Network Architecture
 
 The architecture used a 3-tier model:
 
+```text
 Public Layer
 ↓
 Application Layer
 ↓
 Database Layer
-Public Layer
+```
+
+---
+
+# Public Layer
 
 Contains:
 
-Public ALB
-Bastion Host
-Internet-facing resources
+* Public ALB
+* Bastion Host
+* Internet-facing resources
 
 Connected to:
 
-Internet Gateway
-Application Layer
+* Internet Gateway
+
+---
+
+# Application Layer
 
 Contains:
 
-backend application servers
-internal services
+* backend application servers
+* internal services
 
 Protected using:
 
-private subnets
-internal ALB
-Security Groups
-Database Layer
+* private subnets
+* internal ALB
+* Security Groups
+
+---
+
+# Database Layer
 
 Contains:
 
-MySQL database EC2
+* MySQL database EC2
 
 Fully isolated from:
 
-public internet access
-Multi-AZ Design
+* public internet access
+
+---
+
+# Multi-AZ Design
 
 Resources were distributed across:
 
-us-east-1a
-us-east-1b
+* us-east-1a
+* us-east-1b
 
 to improve:
 
-availability
-redundancy
-fault tolerance
-Enterprise Networking Flow
+* availability
+* redundancy
+* fault tolerance
+
+---
+
+# Enterprise Networking Flow
+
+```text
 User
 ↓
 Public ALB
@@ -360,43 +482,67 @@ Internal ALB
 App Tier
 ↓
 Database Tier
-Security Segmentation
+```
+
+---
+
+# Security Segmentation
 
 Traffic was controlled using:
 
-Security Groups
-private subnets
-route tables
-internal ALB routing
+* Security Groups
+* private subnets
+* route tables
+* internal ALB routing
 
 This reduced unnecessary exposure.
 
-Benefits of Enterprise VPC Design
-Benefit	Explanation
-High Availability	Multi-AZ deployment
-Scalability	Easy subnet expansion
-Security	Isolated workloads
-Fault Isolation	Failure containment
-Traffic Management	Controlled routing
-5. Custom VPC Implementation
-Why Custom VPC Was Implemented
+---
+
+# Benefits of Enterprise VPC Design
+
+| Benefit            | Explanation           |
+| ------------------ | --------------------- |
+| High Availability  | Multi-AZ deployment   |
+| Scalability        | Easy subnet expansion |
+| Security           | Isolated workloads    |
+| Fault Isolation    | Failure containment   |
+| Traffic Management | Controlled routing    |
+
+---
+
+# 5. Custom VPC Implementation
+
+---
+
+# Why Custom VPC Was Implemented
 
 A custom VPC was created to support:
 
-enterprise architecture
-subnet segmentation
-custom routing
-private networking
-secure communication
-VPC Configuration Used
-Configuration	Value
-Region	us-east-1
-VPC CIDR	10.0.0.0/16
-Availability Zones	us-east-1a, us-east-1b
-Public Subnets	2
-Private App Subnets	2
-Private DB Subnets	2
-VPC Architecture Implemented
+* enterprise architecture
+* subnet segmentation
+* custom routing
+* private networking
+* secure communication
+
+---
+
+# VPC Configuration Used
+
+| Configuration       | Value                  |
+| ------------------- | ---------------------- |
+| Region              | us-east-1              |
+| VPC CIDR            | 10.0.0.0/16            |
+| Availability Zones  | us-east-1a, us-east-1b |
+| Public Subnets      | 2                      |
+| Private App Subnets | 2                      |
+| Private DB Subnets  | 2                      |
+
+---
+
+# VPC Architecture Implemented
+
+```text
 VPC: 10.0.0.0/16
 │
 ├── Public Subnet 1 (AZ-1)
@@ -407,71 +553,146 @@ VPC: 10.0.0.0/16
 │
 ├── DB Subnet 1
 └── DB Subnet 2
-Internet Connectivity Design
-Internet Gateway
+```
+
+---
+
+# Internet Connectivity Design
+
+---
+
+# Internet Gateway
 
 Used for:
 
-inbound internet access
-public subnet communication
+* inbound internet access
+* public subnet communication
 
 Attached to:
 
-Public Route Table
-NAT Gateway
+* Public Route Table
+
+---
+
+# NAT Gateway
 
 Used for:
 
-outbound internet access from private subnets
+* outbound internet access from private subnets
 
 without exposing private instances publicly.
 
-Bastion Host
+---
+
+# Bastion Host
 
 The Bastion Host was placed in:
 
-public subnet
+* public subnet
 
 Used for:
 
-controlled SSH access
-secure administration
-Route Table Design
-Route Table	Purpose
-Public RT	Internet routing
-Private RT	NAT Gateway routing
-DB RT	Isolated database routing
-High Availability Considerations
+* controlled SSH access
+* secure administration
+
+---
+
+# Route Table Design
+
+| Route Table | Purpose                   |
+| ----------- | ------------------------- |
+| Public RT   | Internet routing          |
+| Private RT  | NAT Gateway routing       |
+| DB RT       | Isolated database routing |
+
+---
+
+# High Availability Considerations
 
 The VPC architecture was designed for:
 
-Multi-AZ deployment
-scalable infrastructure
-Auto Scaling integration
-load balancing support
-Security Considerations
+* Multi-AZ deployment
+* scalable infrastructure
+* Auto Scaling integration
+* load balancing support
+
+---
+
+# Security Considerations
 
 The design implemented:
 
-subnet isolation
-SG chaining
-private networking
-least privilege communication
-Real-World Importance of VPC Design
+* subnet isolation
+* SG chaining
+* private networking
+* least privilege communication
+
+---
+
+# Real-World Importance of VPC Design
 
 Poor VPC architecture can lead to:
 
-security vulnerabilities
-scaling limitations
-routing complexity
-operational issues
+* security vulnerabilities
+* scaling limitations
+* routing complexity
+* operational issues
 
 Well-designed VPCs improve:
 
-maintainability
-scalability
-security
-reliability
+* maintainability
+* scalability
+* security
+* reliability
+
+---
+
+# VPC Concepts Used in This Project
+
+| Concept                | Implementation            |
+| ---------------------- | ------------------------- |
+| Custom VPC             | 10.0.0.0/16               |
+| Public Subnets         | ALB + Bastion             |
+| Private Subnets        | App tier                  |
+| DB Isolation           | Dedicated DB subnet       |
+| Internet Access        | IGW                       |
+| Secure Outbound Access | NAT Gateway               |
+| Multi-AZ Design        | us-east-1a and us-east-1b |
+
+---
+
+# Summary
+
+Amazon VPC forms the networking foundation of AWS infrastructure.
+
+This chapter explained:
+
+* VPC fundamentals
+* CIDR planning
+* enterprise networking concepts
+* subnet segmentation
+* Multi-AZ architecture
+* internet connectivity
+* enterprise VPC implementation
+
+These concepts directly support:
+
+* scalable architectures
+* secure networking
+* enterprise cloud deployments
+* high availability infrastructure
+
+The next chapters will build on this VPC foundation to explain:
+
+* subnets
+* route tables
+* Internet Gateway
+* NAT Gateway
+* Security Groups
+* NACLs
+* IAM
+* secure AWS networking architecture
+
 
 ## Chapter 2 — Subnet Architecture
 
