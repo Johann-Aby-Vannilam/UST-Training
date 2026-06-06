@@ -1,1 +1,69 @@
-test
+Employee Onboarding System - AWS Documentation
+Project Overview
+This project implements a secure Employee Onboarding System using AWS S3, AWS KMS, and AWS Secrets Manager. The application allows HR teams to onboard employees, upload documents, securely store credentials, and retrieve onboarding records through a Flask-based web interface.
+Architecture
+Frontend (HTML/JavaScript) -> Flask API -> AWS Services
+• Amazon S3: Stores employee documents
+• AWS KMS: Encrypts documents at rest using a Customer Managed Key (CMK)
+• AWS Secrets Manager: Stores employee credentials securely
+
+Workflow
+1. User enters employee details and uploads Offer Letter, NDA and IT Policy.
+2. Flask API receives the request.
+3. Documents are uploaded to Amazon S3 using SSE-KMS encryption.
+4. Temporary credentials are generated.
+5. Credentials are stored in AWS Secrets Manager.
+6. Employee records are displayed in the UI.
+7. Credentials can be retrieved securely from Secrets Manager.
+AWS Services Used
+Amazon S3
+- Stores onboarding documents.
+- Documents organized by Employee ID folders.
+
+AWS KMS
+- Customer Managed Key (alias/onboarding-cmk).
+- Used by S3 and Secrets Manager for encryption.
+
+AWS Secrets Manager
+- Stores employee credentials.
+- Supports secure retrieval through API.
+Code Components
+app.py
+- Flask web application.
+- REST APIs for onboarding, listing employees, retrieving secrets and downloading documents.
+
+onboard.py
+- Core onboarding logic.
+- KMS envelope encryption/decryption.
+- S3 upload/download operations.
+- Secrets Manager integration.
+Screenshots
+Employee Onboarding Dashboard
+ 
+Employee Onboarding Dashboard
+Employee Credentials View
+ 
+Employee Credentials View
+Secrets Manager Records
+ 
+Secrets Manager Records
+AWS KMS Customer Managed Key
+ 
+AWS KMS Customer Managed Key
+S3 Bucket Structure
+ 
+S3 Bucket Structure
+Employee Documents Stored in S3
+ 
+Employee Documents Stored in S3
+Security Features
+- KMS-backed encryption for documents.
+- Secrets stored in AWS Secrets Manager.
+- IAM-based access control.
+- Unique employee IDs.
+- Temporary passwords generated automatically.
+API Endpoints
+POST /api/onboard
+GET /api/employees
+GET /api/employee/<emp_id>/secret
+GET /api/employee/<emp_id>/document/<doc_name>
