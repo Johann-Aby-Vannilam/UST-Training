@@ -1,69 +1,525 @@
-Employee Onboarding System - AWS Documentation
-Project Overview
-This project implements a secure Employee Onboarding System using AWS S3, AWS KMS, and AWS Secrets Manager. The application allows HR teams to onboard employees, upload documents, securely store credentials, and retrieve onboarding records through a Flask-based web interface.
-Architecture
-Frontend (HTML/JavaScript) -> Flask API -> AWS Services
-• Amazon S3: Stores employee documents
-• AWS KMS: Encrypts documents at rest using a Customer Managed Key (CMK)
-• AWS Secrets Manager: Stores employee credentials securely
+# Employee Onboarding System
 
-Workflow
-1. User enters employee details and uploads Offer Letter, NDA and IT Policy.
-2. Flask API receives the request.
-3. Documents are uploaded to Amazon S3 using SSE-KMS encryption.
-4. Temporary credentials are generated.
-5. Credentials are stored in AWS Secrets Manager.
-6. Employee records are displayed in the UI.
-7. Credentials can be retrieved securely from Secrets Manager.
-AWS Services Used
-Amazon S3
-- Stores onboarding documents.
-- Documents organized by Employee ID folders.
+A secure Employee Onboarding System built using **Flask**, **Amazon S3**, **AWS KMS**, and **AWS Secrets Manager**.
 
-AWS KMS
-- Customer Managed Key (alias/onboarding-cmk).
-- Used by S3 and Secrets Manager for encryption.
+The application allows HR teams to onboard employees, securely store onboarding documents, generate temporary credentials, and manage employee records through a web-based interface.
 
-AWS Secrets Manager
-- Stores employee credentials.
-- Supports secure retrieval through API.
-Code Components
-app.py
-- Flask web application.
-- REST APIs for onboarding, listing employees, retrieving secrets and downloading documents.
+---
 
-onboard.py
-- Core onboarding logic.
-- KMS envelope encryption/decryption.
-- S3 upload/download operations.
-- Secrets Manager integration.
-Screenshots
-Employee Onboarding Dashboard
- 
-Employee Onboarding Dashboard
-Employee Credentials View
- 
-Employee Credentials View
-Secrets Manager Records
- 
-Secrets Manager Records
-AWS KMS Customer Managed Key
- 
-AWS KMS Customer Managed Key
-S3 Bucket Structure
- 
-S3 Bucket Structure
-Employee Documents Stored in S3
- 
-Employee Documents Stored in S3
-Security Features
-- KMS-backed encryption for documents.
-- Secrets stored in AWS Secrets Manager.
-- IAM-based access control.
-- Unique employee IDs.
-- Temporary passwords generated automatically.
-API Endpoints
+## Features
+
+### Employee Onboarding
+- Capture employee details:
+  - First Name
+  - Last Name
+  - Email
+  - Department
+  - Role
+
+### Document Management
+Upload employee onboarding documents:
+
+- Offer Letter
+- NDA Document
+- IT Policy Acknowledgement
+
+### Secure Storage
+- Documents stored in Amazon S3
+- Server-side encryption using AWS KMS (SSE-KMS)
+- Credentials stored in AWS Secrets Manager
+- Customer Managed Key (CMK) used for encryption
+
+### Employee Records
+- View onboarded employees
+- Download uploaded documents
+- Retrieve employee credentials securely from Secrets Manager
+
+---
+
+# Architecture
+
+```text
+┌─────────────────────┐
+│     Web UI          │
+│  (HTML + JS)        │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│     Flask App       │
+│      app.py         │
+└───────┬─────┬───────┘
+        │     │
+        │     │
+        ▼     ▼
+┌──────────┐ ┌─────────────────┐
+│ Amazon S3│ │ Secrets Manager │
+└─────┬────┘ └────────┬────────┘
+      │               │
+      └──────┬────────┘
+             ▼
+      ┌───────────────┐
+      │ AWS KMS (CMK) │
+      └───────────────┘
+```
+
+---
+
+# AWS Services Used
+
+## Amazon S3
+
+Stores employee onboarding documents.
+
+Folder structure:
+
+```text
+company-onboarding-docs/
+│
+├── emp-0f6b206e/
+│   ├── offer_letter.pdf
+│   ├── nda.pdf
+│   └── it_policy.pdf
+│
+├── emp-93237f41/
+│   ├── offer_letter.pdf
+│   ├── nda.pdf
+│   └── it_policy.pdf
+```
+
+### Purpose
+- Durable document storage
+- Secure downloads
+- Centralized employee records
+
+---
+
+## AWS KMS
+
+Customer Managed Key:
+
+```text
+alias/onboarding-cmk
+```
+
+Used by:
+
+- Amazon S3
+- AWS Secrets Manager
+
+### Purpose
+
+- Encrypt employee documents
+- Encrypt employee credentials
+- Centralized key management
+- Auditability and compliance
+
+---
+
+## AWS Secrets Manager
+
+Stores:
+
+```json
+{
+  "employee_id": "emp-eb619d3d",
+  "email": "employee@company.com",
+  "temp_password": "generated-password",
+  "vpn_key": "generated-vpn-key",
+  "slack_token": "generated-token",
+  "department": "Engineering",
+  "role": "DevOps"
+}
+```
+
+### Purpose
+
+- Secure credential storage
+- Credential retrieval
+- Encryption using KMS
+
+---
+
+# Application Workflow
+
+## Step 1 – Employee Registration
+
+User enters:
+
+- First Name
+- Last Name
+- Email
+- Department
+- Role
+
+and uploads:
+
+- Offer Letter
+- NDA
+- IT Policy
+
+---
+
+## Step 2 – Credential Generation
+
+Application generates:
+
+- Temporary Password
+- VPN Key
+- Slack Token
+
+Example:
+
+```python
+temp_password = base64.urlsafe_b64encode(
+    os.urandom(18)
+).decode()
+```
+
+---
+
+## Step 3 – Store Credentials
+
+Credentials stored in:
+
+```text
+Secrets Manager
+
+onboarding/<employee-id>/credentials
+```
+
+Example:
+
+```text
+onboarding/emp-eb619d3d/credentials
+```
+
+---
+
+## Step 4 – Upload Documents
+
+Documents uploaded to:
+
+```text
+S3 Bucket
+```
+
+Path:
+
+```text
+emp-eb619d3d/
+ ├── offer_letter.pdf
+ ├── nda.pdf
+ └── it_policy.pdf
+```
+
+Encryption:
+
+```text
+SSE-KMS
+```
+
+using:
+
+```text
+alias/onboarding-cmk
+```
+
+---
+
+## Step 5 – Employee Listing
+
+Application scans S3 bucket and displays:
+
+```text
+Employee ID
+Documents
+Credentials
+```
+
+---
+
+## Step 6 – Secret Retrieval
+
+When user clicks:
+
+```text
+Reveal Credentials
+```
+
+Application retrieves:
+
+```python
+secrets_client.get_secret_value()
+```
+
+from AWS Secrets Manager.
+
+---
+
+# Project Structure
+
+```text
+project/
+│
+├── app.py
+├── onboard.py
+├── requirements.txt
+├── README.md
+│
+└── templates/
+```
+
+---
+
+# Code Overview
+
+## app.py
+
+Main Flask Application
+
+Responsibilities:
+
+- Web UI
+- REST APIs
+- File uploads
+- Employee listing
+- Secret retrieval
+- Document download
+
+### APIs
+
+#### Onboard Employee
+
+```http
 POST /api/onboard
+```
+
+#### Get Employees
+
+```http
 GET /api/employees
+```
+
+#### Get Credentials
+
+```http
 GET /api/employee/<emp_id>/secret
+```
+
+#### Download Document
+
+```http
 GET /api/employee/<emp_id>/document/<doc_name>
+```
+
+---
+
+## onboard.py
+
+Core onboarding logic.
+
+Responsibilities:
+
+- KMS encryption
+- S3 uploads
+- Secret creation
+- Secret retrieval
+- Document decryption
+
+### Functions
+
+#### encrypt_file_content()
+
+Encrypts documents using:
+
+- AES-256 Data Key
+- AWS KMS
+
+#### decrypt_file_content()
+
+Decrypts documents.
+
+#### upload_document()
+
+Uploads encrypted documents to S3.
+
+#### store_employee_secret()
+
+Stores credentials in Secrets Manager.
+
+#### retrieve_employee_secret()
+
+Retrieves employee credentials.
+
+#### onboard_employee()
+
+Complete onboarding workflow.
+
+---
+
+# Environment Variables
+
+```bash
+export ONBOARD_S3_BUCKET=company-onboarding-docs
+
+export ONBOARD_KMS_ALIAS=alias/onboarding-cmk
+
+export ONBOARD_SECRET_PFX=onboarding
+
+export AWS_DEFAULT_REGION=us-east-1
+```
+
+---
+
+# IAM Permissions Required
+
+## S3
+
+```json
+{
+  "Action": [
+    "s3:GetObject",
+    "s3:PutObject",
+    "s3:ListBucket"
+  ]
+}
+```
+
+## Secrets Manager
+
+```json
+{
+  "Action": [
+    "secretsmanager:GetSecretValue",
+    "secretsmanager:CreateSecret",
+    "secretsmanager:PutSecretValue"
+  ]
+}
+```
+
+## KMS
+
+```json
+{
+  "Action": [
+    "kms:Encrypt",
+    "kms:Decrypt",
+    "kms:GenerateDataKey"
+  ]
+}
+```
+
+---
+
+# Security Features
+
+### Encryption at Rest
+
+- Documents encrypted using SSE-KMS
+- Secrets encrypted using KMS
+
+### Credential Protection
+
+- Stored in Secrets Manager
+- Not exposed in S3
+
+### Key Management
+
+- Customer Managed Key
+- Fine-grained IAM permissions
+
+### Secure Downloads
+
+- Authorized users only
+- KMS decrypt permissions required
+
+---
+
+# Screenshots
+
+## Employee Onboarding Dashboard
+
+- Employee registration form
+- Document upload section
+
+## Employee Records
+
+- View onboarded employees
+- Download uploaded documents
+
+## AWS Secrets Manager
+
+- Secure storage of credentials
+
+## AWS KMS
+
+- Customer Managed Key
+- Encryption management
+
+## Amazon S3
+
+- Employee document storage
+
+---
+
+# Testing
+
+### Onboard Employee
+
+1. Fill employee details
+2. Upload documents
+3. Click **Onboard Employee**
+
+Expected Result:
+
+- Secret created
+- Documents uploaded
+- Employee record visible
+
+### Reveal Credentials
+
+Click:
+
+```text
+Reveal Credentials
+```
+
+Expected Result:
+
+- Secret retrieved from Secrets Manager
+
+### Download Documents
+
+Click document link.
+
+Expected Result:
+
+- File downloaded successfully
+
+---
+
+# Future Enhancements
+
+- DynamoDB integration
+- Cognito authentication
+- Email notifications via SES
+- Event-driven architecture using EventBridge
+- Lambda-based processing
+- Document versioning
+- Audit logging
+
+---
+
+# Conclusion
+
+This project demonstrates a secure employee onboarding workflow using AWS cloud services.
+
+By combining:
+
+- Amazon S3
+- AWS KMS
+- AWS Secrets Manager
+- Flask
+
+the solution provides secure document storage, credential management, encryption, and employee record management while following AWS security best practices.
